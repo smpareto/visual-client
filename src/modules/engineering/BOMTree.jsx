@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import BOMTreeNode from "./BOMTreeNode";
+import PartInfoDialog from "./PartInfoDialog";
 
 /** Walk the tree and return the maximum depth (0-based). */
 function getMaxDepth(node, depth = 0) {
@@ -13,6 +14,7 @@ export default function BOMTree({
   expandedDepth = 1,
   onExpandedDepthChange,
 }) {
+  const [selectedPartId, setSelectedPartId] = useState(null);
   const maxDepth = useMemo(() => (data ? getMaxDepth(data) : 0), [data]);
 
   const canDrillDown = expandedDepth <= maxDepth;
@@ -86,8 +88,14 @@ export default function BOMTree({
           depth={0}
           mode={mode}
           expandedDepth={expandedDepth}
+          onPartClick={setSelectedPartId}
         />
       </div>
+      <PartInfoDialog
+        partId={selectedPartId}
+        open={!!selectedPartId}
+        onOpenChange={(o) => !o && setSelectedPartId(null)}
+      />
     </div>
   );
 }

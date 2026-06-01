@@ -99,6 +99,7 @@ export default function BOMTreeNode({
   depth,
   mode = "simplified",
   expandedDepth = 1,
+  onPartClick,
 }) {
   // Track manual override + which expandedDepth it was set at.
   // If expandedDepth changes, the override is stale and ignored — no effect needed.
@@ -115,6 +116,11 @@ export default function BOMTreeNode({
     ? getNodeColorClasses(node.nodeType)
     : "hover:bg-blue-50";
 
+  // Only a non-empty, trimmed part ID can open the lookup dialog. Lines like
+  // "90 - SSS M16-2.00 x 25mm Unbrako" (no part ID) and OP rows stay inert.
+  const partId = node.partId?.trim();
+
+  // Single click toggles expand/collapse for nodes with children.
   function handleClick() {
     if (hasChildren) {
       const current =
@@ -123,13 +129,22 @@ export default function BOMTreeNode({
     }
   }
 
+  // Double click anywhere on the row opens the part lookup dialog.
+  function handleDoubleClick() {
+    if (partId) onPartClick?.(partId);
+  }
+
   return (
     <div>
       {/* Node row */}
       <div
-        className={`flex items-baseline cursor-pointer ${colorClasses}
+        className={`flex items-baseline cursor-pointer select-none ${colorClasses}
           ${node.selected ? "bg-blue-600 text-white" : ""}`}
         onClick={handleClick}
+        onDoubleClick={handleDoubleClick}
+        title={
+          partId ? "Double-click to view specifications & drawing" : undefined
+        }
       >
         {/* Left section — fixed width, indent lives inside */}
         <div
@@ -184,6 +199,7 @@ export default function BOMTreeNode({
               depth={depth + 1}
               mode={mode}
               expandedDepth={expandedDepth}
+              onPartClick={onPartClick}
             />
           ))}
         </div>
