@@ -1,16 +1,58 @@
-# React + Vite
+# VISUAL Samco Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-based client application for Samco Machinery's VISUAL system, providing interfaces for Sales, Inventory, and Engineering modules.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19
+- Vite
+- React Router
+- TanStack Table
+- Radix UI
+- Tailwind CSS
+- Lucide Icons
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Start development server
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run linting
+npm run lint
+```
+
+## Project Structure
+
+```
+src/
+  components/   # Shared UI components
+    layout/     # App shell and layout components
+    ui/         # Reusable UI primitives
+  modules/      # Feature modules
+    sales/      # Sales module
+    inventory/  # Inventory module
+    engineering/# Engineering module
+  services/     # API services
+  store/        # Application state management
+  data/         # Static data and constants
+  lib/          # Utility functions
+```
+
+## Docker
+
+Build and run with Docker:
+
+```bash
+docker build -t visual-client .
+docker run -p 80:80 visual-client
+```
